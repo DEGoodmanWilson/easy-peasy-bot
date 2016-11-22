@@ -85,6 +85,77 @@ controller.on('bot_channel_join', function (bot, message) {
     bot.reply(message, "I'm here!")
 });
 
+controller.middleware.receive.use(function(bot, message, next) {
+
+    var finishedCount = 0;
+    function done() {
+        finishedCount += 1;
+        if (finishedCount === 2) {
+            next();
+        }
+    }
+
+    if (message.user) {
+      controller.storage.users.get(message.user, function(error, user_data) {
+          if (error) {
+              console.error(error);
+              done();
+          } else if (user_data === null) {
+              console.log('user is not present in storage, caching.', message.user);
+              bot.api.users.info(message.user, function(error, response) {
+                  if (error) {
+                      console.error(error);
+                      done();
+                  } else {
+                      console.log('retrieved user from web api', message.user);
+                      controller.storage.users.save(response.user, function(error) {
+                          if (error) {
+                              console.error(error);
+                          } else {
+                              console.log('user cached to storage', message.user);
+                          }
+                          done();
+                      });
+                  }
+              });
+          } else {
+              console.log('user already exists in storage, not updating.', message.user);
+              done();
+          }
+      });
+    }
+
+    if (message.channel) {
+      controller.storage.channels.get(message.channel, function(error, channel_data) {
+          if (error) {
+              console.error(error);
+              done();
+          } else if (channel_data === null) {
+              console.log('channel is not present in storage, caching.', message.channel);
+              bot.api.channels.info(message.channel, function(error, response) {
+                  if (error) {
+                      console.error(error);
+                      done();
+                  } else {
+                      console.log('retrieved channel from web api', message.channel);
+                      controller.storage.channels.save(response.channel, function(error) {
+                          if (error) {
+                              console.error(error);
+                          } else {
+                              console.log('channel cached to storage', message.channel);
+                          }
+                          done();
+                      });
+                  }
+              });
+          } else {
+              console.log('channel already exists in storage, not updating.', message.channel);
+              done();
+          }
+      });
+    }
+});
+
 controller.hears('hello', ['ambient', 'mention', 'direct_mention', 'direct_message'], function (bot, message) {
     console.log("hello from ");
     console.dir(message);
