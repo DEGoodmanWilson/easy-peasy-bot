@@ -38,7 +38,7 @@ if (process.env.MONGODB_URI) {
     };
 }
 
-config.logLevel = 7;
+// config.logLevel = 7;
 
 /**
  * Are being run as an app or a custom integration? The initialization will differ, depending
@@ -104,7 +104,7 @@ controller.middleware.receive.use(function(bot, message, next) {
               done();
           } else if (user_data === null) {
               console.log('user is not present in storage, caching.', message.user);
-              bot.api.users.info(message.user, function(error, response) {
+              bot.api.users.info({ user: message.user }, function(error, response) {
                   if (error) {
                       console.error(error);
                       done();
@@ -134,7 +134,7 @@ controller.middleware.receive.use(function(bot, message, next) {
               done();
           } else if (channel_data === null) {
               console.log('channel is not present in storage, caching.', message.channel);
-              bot.api.channels.info(message.channel, function(error, response) {
+              bot.api.channels.info({ channel: message.channel }, function(error, response) {
                   if (error) {
                       console.error(error);
                       done();
