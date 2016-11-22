@@ -38,6 +38,8 @@ if (process.env.MONGODB_URI) {
     };
 }
 
+config.logLevel = 7;
+
 /**
  * Are being run as an app or a custom integration? The initialization will differ, depending
  */
