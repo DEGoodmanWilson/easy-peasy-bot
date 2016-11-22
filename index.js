@@ -125,6 +125,8 @@ controller.middleware.receive.use(function(bot, message, next) {
               done();
           }
       });
+    } else {
+      done();
     }
 
     if (message.channel) {
@@ -155,6 +157,8 @@ controller.middleware.receive.use(function(bot, message, next) {
               done();
           }
       });
+    } else {
+      done();
     }
 });
 
