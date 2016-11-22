@@ -27,10 +27,10 @@ function onInstallation(bot, installer) {
  */
 
 var config = {};
-if (process.env.MONGOLAB_URI) {
+if (process.env.MONGODB_URI) {
     var BotkitStorage = require('botkit-storage-mongo');
     config = {
-        storage: BotkitStorage({mongoUri: process.env.MONGOLAB_URI}),
+        storage: BotkitStorage({mongoUri: process.env.MONGODB_URI}),
     };
 } else {
     config = {
@@ -52,7 +52,7 @@ if (process.env.TOKEN || process.env.SLACK_TOKEN) {
     var app = require('./lib/apps');
     var controller = app.configure(process.env.PORT, process.env.CLIENT_ID, process.env.CLIENT_SECRET, config, onInstallation);
 } else {
-    console.log('Error: If this is a custom integration, please specify TOKEN in the environment. If this is an app, please specify CLIENTID, CLIENTSECRET, and PORT in the environment');
+    console.log('Error: If this is a custom integration, please specify TOKEN in the environment. If this is an app, please specify CLIENT_ID, CLIENT_SECRET in the environment');
     process.exit(1);
 }
 
