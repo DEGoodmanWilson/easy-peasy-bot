@@ -5,7 +5,7 @@
 
 /**
  * Define a function for initiating a conversation on installation
- * With custom integrations, we don't have a way to find out who installed us, so we can't message them :(
+ * With single-team apps, we don't have a way to find out who installed us, so we can't message them :(
  */
 
 function onInstallation(bot, installer) {
@@ -39,20 +39,20 @@ if (process.env.MONGODB_URI) {
 }
 
 /**
- * Are being run as an app or a custom integration? The initialization will differ, depending
+ * Are being run as a single-team or multi-team app? The initialization will differ, depending
  */
 
 if (process.env.TOKEN || process.env.SLACK_TOKEN) {
-    //Treat this as a custom integration
-    var customIntegration = require('./lib/custom_integrations');
+    //Treat this as a single-team app
+    var app = require('./lib/single_team');
     var token = (process.env.TOKEN) ? process.env.TOKEN : process.env.SLACK_TOKEN;
-    var controller = customIntegration.configure(token, config, onInstallation);
+    var controller = app.configure(token, config, onInstallation);
 } else if (process.env.CLIENT_ID && process.env.CLIENT_SECRET && process.env.PORT) {
     //Treat this as an app
-    var app = require('./lib/apps');
+    var app = require('./lib/multi_team');
     var controller = app.configure(process.env.PORT, process.env.CLIENT_ID, process.env.CLIENT_SECRET, config, onInstallation);
 } else {
-    console.log('Error: If this is a custom integration, please specify TOKEN in the environment. If this is an app, please specify CLIENT_ID, CLIENT_SECRET in the environment');
+    console.log('Error: If this is a single-team app, please specify TOKEN in the environment. If this is a multi-team app, please specify CLIENT_ID, CLIENT_SECRET in the environment');
     process.exit(1);
 }
 

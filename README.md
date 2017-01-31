@@ -10,14 +10,14 @@ So, they built a special user in their messaging app: not a human user, but a di
 Eventually their app was named Slack and their digital user, Slackbot.
 And lo, you can build a Slack Bot, too! With our API and this nifty repository, a bot for your team can be all yours.
 
-# Using Botkit for Custom Bots
+# Using Botkit for Single-Team Apps
 1. Fork this project.
 2. Open up your favorite terminal app, and clone your new repository to your local computer.
 3. This is a Node.js project, so you’ll need to install the various dependencies by running:
     npm install
 4. Edit `package.json` to give your bot a name and update the GitHub URLs to reflect the location of your fork in GitHub.
-5. Go to https://my.slack.com/apps/new/A0F7YS25R-bots and pick a name for your new bot.
-6. Once you’ve clicked “Add integration,” you’ll be taken to a page where you can further customize your bot. Of importance is the bot token—take note of it now.
+5. Go to https://api.slack.com/apps/new and create a new app, being sure to add a bot user.
+6. Once you’ve clicked “Add bot user,” you’ll be taken to a page where you can further customize your bot. Of importance is the bot token—take note of it now.
 7. Once you have the token, you can run your bot easily:
 
     ```bash
@@ -55,6 +55,6 @@ At this point you will probably want to start doing more sophisticated things, l
 
 Once you’ve got your bot developed to your liking, it is ready to be deployed to your own hosting framework. No other configuration is necessary, except storing the token and desired port in environment variables.
 
-# Using Botkit for Bot Apps
+# Using Botkit for Multi-team Apps
 
 You can find full instructions for building a bot app with this repository at https://medium.com/slack-developer-blog/easy-peasy-bots-getting-started-96b65e6049bf#.4ay2fjf32
